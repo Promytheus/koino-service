@@ -1,30 +1,29 @@
 package org.promytheus.koino.model;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 public class ExpenseCategory implements Serializable {
 
     static final long serialVersionUID = 1L;
 
-    private long id;
+    private String uuid;
 
     private String name;
     private String desc;
 
     public ExpenseCategory() {
+        uuid = UUID.randomUUID().toString();
     }
 
     public ExpenseCategory(String name, String desc) {
+        uuid = UUID.randomUUID().toString();
         this.name = name;
         this.desc = desc;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
+    public String getUuid() {
+        return uuid;
     }
 
     public String getName() {

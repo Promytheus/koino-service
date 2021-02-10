@@ -18,7 +18,7 @@ public interface ExpenseCategoryRepository extends Repository<ExpenseCategory, L
 	 * @param id
 	 * @return
 	 */
-	public ExpenseCategory findById(Long id);
+	public ExpenseCategory findById(String uuid);
 	
 	/**
 	 * Saves the given {@link ExpenseCategory}.
@@ -26,5 +26,21 @@ public interface ExpenseCategoryRepository extends Repository<ExpenseCategory, L
 	 * @param expenseCategory
 	 * @return
 	 */
-	public ExpenseCategory save(ExpenseCategory expenseCategory);
+    public ExpenseCategory save(ExpenseCategory expenseCategory);
+    
+    /**
+	 * Updates the given {@link ExpenseCategory}.
+	 * 
+	 * @param expenseCategory
+	 * @return
+	 */
+    public ExpenseCategory update(ExpenseCategory expenseCategory);
+    
+    /**
+	 * Deletes the given {@link ExpenseCategory}.
+	 * 
+	 * @param uuid
+	 * @return
+	 */
+	public void delete(String uuid);
 }

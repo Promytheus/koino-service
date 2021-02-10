@@ -2,12 +2,13 @@ package org.promytheus.koino.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.UUID;
 
 public class Expense implements Serializable {
 
     static final long serialVersionUID = 1L;
 
-    private long id;
+    private String uuid;
 
     private ExpenseCategory category;
     private String desc;
@@ -15,21 +16,19 @@ public class Expense implements Serializable {
     private Date paymentDate;
 
     public Expense() {
+        uuid = UUID.randomUUID().toString();
     }
 
     public Expense(ExpenseCategory category, String desc, Date dueDate, Date paymentDate) {
+        uuid = UUID.randomUUID().toString();
         this.category = category;
         this.desc = desc;
         this.dueDate = dueDate;
         this.paymentDate = paymentDate;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
+    public String getUuid() {
+        return uuid;
     }
 
     public ExpenseCategory getCategory() {

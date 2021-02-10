@@ -9,6 +9,8 @@ import org.springframework.util.Assert;
 
 import static org.springframework.data.mongodb.core.query.Query.*;
 
+import java.util.Optional;
+
 import org.promytheus.koino.model.ExpenseCategory;
 
 import static org.springframework.data.mongodb.core.query.Criteria.*;
@@ -36,15 +38,34 @@ public class ExpenseCategoryRepositoryMongoDB implements ExpenseCategoryReposito
         return operations.findAll(ExpenseCategory.class);
     }
 
-	public ExpenseCategory findById(Long id) {
+	public ExpenseCategory findById(String uuid) {
 
-		Query query = query(where("id").is(id));
+		Query query = query(where("uuid").is(uuid));
 		return operations.findOne(query, ExpenseCategory.class);
 	}
 	
-	public ExpenseCategory save(ExpenseCategory content) {
+	public ExpenseCategory save(ExpenseCategory expenseCategory) {
 
-		operations.save(content);
-		return content;
-	}
+		operations.save(expenseCategory);
+		return expenseCategory;
+    }
+    
+    public ExpenseCategory update(ExpenseCategory expenseCategory) {
+
+        Optional<ExpenseCategory> updatedExpenseCategory = operations.update(ExpenseCategory.class)
+            .matching(query(where("uuid").is(expenseCategory.getUuid())))
+            .replaceWith(expenseCategory).findAndReplace();
+
+        if (!updatedExpenseCategory.isEmpty())
+            return updatedExpenseCategory.get();
+        else
+            return null;
+    }
+    
+    public void delete(String uuid) {
+
+        operations.remove(ExpenseCategory.class)
+            .matching(query(where("uuid").is(uuid)))
+            .findAndRemove();
+    }
 }
