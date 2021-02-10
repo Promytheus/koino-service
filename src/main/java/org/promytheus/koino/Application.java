@@ -21,7 +21,8 @@ public class Application extends AbstractMongoClientConfiguration {
 	
 	@Bean
 	public MongoClient mongoClient() {
-		return MongoClients.create("mongodb://koino-mongodb");
+
+        return MongoClients.create("mongodb://koino:password@koino-mongodb/?authSource=koino-service");
 	}
 	
 	@Override

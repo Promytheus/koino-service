@@ -1,8 +1,10 @@
 package org.promytheus.koino;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -27,15 +29,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .password(encoder.encode("d0dek@nISou"))
                 .roles("USER", "ADMIN");
     }
-    
+
     @Override
 	protected void configure(HttpSecurity http) throws Exception {
 
         http.authorizeRequests()
-            .anyRequest()
-            .authenticated()
+            .antMatchers("/api/**").authenticated()
+            .anyRequest().permitAll()
             .and()
             .httpBasic();
+    }
+    
+    @Override
+	public void configure(WebSecurity web) throws Exception {
+
+		web.ignoring().antMatchers(HttpMethod.OPTIONS, "/api/**");
 	}
 	
 	@Bean
