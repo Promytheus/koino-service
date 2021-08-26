@@ -1,0 +1,78 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: koino-service
+  labels:
+    app: koino-service
+spec:
+  clusterIP: None
+  ports:
+    - port: 8080
+      name: koino-service
+  selector:
+    app: koino-service
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: koino-service
+  labels:
+    app: koino-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: koino-service
+  template:
+    metadata:
+      labels:
+        app: koino-service
+    spec:
+      containers:
+      - name: koino-service
+        image: koino-service
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: koino-mongodb
+  name: koino-mongodb
+spec:
+  clusterIP: None
+  ports:
+  - port: 27017
+    targetPort: 27017
+  selector:
+    app: koino-mongodb
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: koino-mongodb
+  labels:
+    app: koino-mongodb
+spec:
+  selector: 
+    matchLabels:
+      app: koino-mongodb
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: koino-mongodb
+      name: koino-mongodb
+    spec:
+      containers:
+      - image: mongo:latest
+        name: koino-mongodb
+        env:
+        - name: MONGO_INITDB_ROOT_USERNAME
+          value: "koino"
+        - name: MONGO_INITDB_ROOT_PASSWORD
+          value: "password"
+        ports:
+        - containerPort: 27017
+          name: koino-mongodb    

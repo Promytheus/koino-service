@@ -1,0 +1,19 @@
+apiVersion: skaffold/v1
+kind: Config
+metadata:
+  name: koino-service
+build:
+  tagPolicy:
+    sha256: {}
+  artifacts:
+    - image: koino-service
+      context: ./
+deploy:
+  kubectl:
+    manifests:
+    - deployment.yml
+portForward:
+  - resourceType: deployment
+    resourceName: koino-service
+    port: 8080
+    localPort: 8888
