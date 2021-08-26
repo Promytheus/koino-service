@@ -18,7 +18,7 @@ public interface ExpenseRepository extends Repository<Expense, Long> {
 	 * @param id
 	 * @return
 	 */
-	public Expense findById(String uuid);
+	public Expense findByUuid(String uuid);
 	
 	/**
 	 * Saves the given {@link Expense}.
@@ -29,18 +29,10 @@ public interface ExpenseRepository extends Repository<Expense, Long> {
     public Expense save(Expense expense);
     
     /**
-	 * Updates the given {@link Expense}.
-	 * 
-	 * @param expense
-	 * @return
-	 */
-    public Expense update(Expense expense);
-    
-    /**
 	 * Deletes the given {@link Expense}.
 	 * 
 	 * @param uuid
 	 * @return
 	 */
-	public void delete(String uuid);
+	public void deleteByUuid(String uuid);
 }

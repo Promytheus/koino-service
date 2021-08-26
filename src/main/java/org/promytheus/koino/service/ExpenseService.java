@@ -23,7 +23,7 @@ public class ExpenseService {
 
     public ExpenseCategory getExpenseCategory(String uuid) {
 		
-		return expenseCategoryRepository.findById(uuid);
+		return expenseCategoryRepository.findByUuid(uuid);
     }
     
     public ExpenseCategory saveExpenseCategory(ExpenseCategory expenseCategory) {
@@ -33,12 +33,17 @@ public class ExpenseService {
 
     public ExpenseCategory updateExpenseCategory(ExpenseCategory expenseCategory) {
 		
-		return expenseCategoryRepository.update(expenseCategory);
+    	ExpenseCategory merged = expenseCategoryRepository.findByUuid(expenseCategory.getUuid());
+    	
+    	merged.setName(expenseCategory.getName());
+    	merged.setDesc(expenseCategory.getDesc());
+    	
+		return expenseCategoryRepository.save(merged);
     }
 
     public void deleteExpenseCategory(String uuid) {
 		
-		expenseCategoryRepository.delete(uuid);
+		expenseCategoryRepository.deleteByUuid(uuid);
     }
 
     public Iterable<Expense> getAllExpenses() {
@@ -48,7 +53,7 @@ public class ExpenseService {
 
     public Expense getExpense(String uuid) {
 		
-		return expenseRepository.findById(uuid);
+		return expenseRepository.findByUuid(uuid);
     }
     
     public Expense saveExpense(Expense expense) {
@@ -58,11 +63,17 @@ public class ExpenseService {
     
     public Expense updateExpense(Expense expense) {
 		
-		return expenseRepository.update(expense);
+    	Expense merged = expenseRepository.findByUuid(expense.getUuid());
+    	
+    	merged.setDesc(expense.getDesc());
+    	merged.setDueDate(expense.getDueDate());
+    	merged.setPaymentDate(expense.getPaymentDate());
+    	    	
+		return expenseRepository.save(merged);
     }
     
     public void deleteExpense(String uuid) {
 		
-		expenseRepository.delete(uuid);
+		expenseRepository.deleteByUuid(uuid);
     }
 }
